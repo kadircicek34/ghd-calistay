@@ -10,8 +10,8 @@
  * Environment:
  *   GHD_ADMIN_USER      default: kadir
  *   GHD_ADMIN_PASSWORD  required on first run and with --force
- *   GHD_ADMIN_EMAIL     default: kadircicek13@icloud.com
- *   GHD_ADMIN_NAME      default: Kadir Çiçek
+ *   GHD_ADMIN_EMAIL     default: admin@globalhukukcular.com
+ *   GHD_ADMIN_NAME      default: Dernek Yöneticisi
  */
 
 if (PHP_SAPI !== 'cli') {
@@ -26,8 +26,8 @@ $options = getopt('', array('force'));
 
 $adminUser = getenv('GHD_ADMIN_USER') ?: 'kadir';
 $adminPassword = getenv('GHD_ADMIN_PASSWORD') ?: '';
-$adminEmail = getenv('GHD_ADMIN_EMAIL') ?: 'kadircicek13@icloud.com';
-$adminName = getenv('GHD_ADMIN_NAME') ?: 'Kadir Çiçek';
+$adminEmail = getenv('GHD_ADMIN_EMAIL') ?: 'admin@globalhukukcular.com';
+$adminName = getenv('GHD_ADMIN_NAME') ?: 'Dernek Yöneticisi';
 $force = isset($options['force']) || getenv('GHD_FORCE') === '1';
 
 $config = $container['configModel'];

@@ -23,7 +23,7 @@ Kanboard 1.2.58 fork'u, Global Hukukçular Derneği için **GH Çalıştay** ad�
 - Public repo: `https://github.com/kadircicek34/ghd-calistay` (`main`)
 - Sunucu: `169.58.198.19` (bu makine)
 - Admin kullanıcı: `kadir`
-- Admin e-posta: `kadircicek13@icloud.com`
+- Admin e-posta: `/root/çalıştay/admin-credentials.txt` içinde
 - Admin parola: `/root/çalıştay/admin-credentials.txt` (0600)
 - DNS panel: `https://www.turkticaret.net/usermanage/userlogin.php`
   - Panel bilgileri `/root/sporgla/.deploy-secrets` içinde; repoya girmez.
