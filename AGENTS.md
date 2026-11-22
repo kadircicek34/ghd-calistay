@@ -52,8 +52,7 @@ Bir görev, aşağıdakilerin tamamı kanıtlanmadan "bitti" sayılmaz:
 
 - Dinamik loop: fazları sırayla bitir; kabul kriterini kanıtlamadan ilerleme.
 - Keşif ve kodlama işleri alt ajanlara devredilebilir; ana ajan raporu doğrular.
-- Alt ajanlar `opencode-go/deepseek-v4.1-flash#max` modeliyle, background'da
-  çalıştırılır; ana ajan başlarında beklemez.
+- Alt ajanlar background'da çalıştırılır; ana ajan başlarında beklemez.
 - Her anlamlı adımdan sonra `type(scope): açıklama` formatında commit atılır.
 - Context en fazla 3 kez compact edilir; 3. compact sonrası kullanıcı uyarılır.
 - Her fazın sonunda `docs/DURUM.md` ve `docs/TASKS.md` güncellenir.

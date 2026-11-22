@@ -35,8 +35,7 @@
 				"zobo.php-intellisense",
 				"xdebug.php-debug",
 				"waderyan.gitblame",
-				"ms-vscode.makefile-tools",
-				"GitHub.copilot"
+				"ms-vscode.makefile-tools"
 			]
 		}
 	}

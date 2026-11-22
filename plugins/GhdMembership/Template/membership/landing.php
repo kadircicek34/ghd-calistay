@@ -47,7 +47,7 @@ include __DIR__ . '/_head.php';
                         <div class="ghd-preview-head"><span class="dot dot-gold"></span> Yapılacak <small>3</small></div>
                         <div class="ghd-preview-card">
                             <span class="ghd-chip">Etkinlik</span>
-                            <strong>AI Act webinari</strong>
+                            <strong>Dijital Hukuk webinari</strong>
                             <small>Konuşmacı ve akış planı</small>
                             <div class="ghd-preview-meta"><span class="ghd-avatar">EY</span><span>12 Kas</span></div>
                         </div>
