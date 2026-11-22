@@ -14,7 +14,7 @@ hazır. Staging E2E testleri ve canlı smoke/üyelik akışı PASS.
 | Canlı adres | `https://calistay.globalhukukcular.com` |
 | Staging | `http://127.0.0.1:8180` |
 | Sunucu | `169.58.198.19` |
-| Repo | `https://github.com/kadircicek34/ghd-calistay` (oluşturulacak) |
+| Repo | `https://github.com/kadircicek34/ghd-calistay` (public, `main`) |
 | Container | `ghdcalistay-app` (production), `ghdcalistay-test-app` (staging) |
 | Veri | `ghdcalistay_data` volume |
 | Admin | `kadir` / `/root/çalıştay/admin-credentials.txt` |
@@ -34,13 +34,14 @@ hazır. Staging E2E testleri ve canlı smoke/üyelik akışı PASS.
 - Canlı smoke: landing/login/başvuru/admin/mobil PASS; canlı üyelik akışı
   (başvuru → onay → giriş → pano) PASS; test verisi temizlendi (0 başvuru).
 - `docs/screenshots/` altında staging ve canlı kanıt görselleri.
+- Public GitHub repo oluşturuldu; ilk public commit `8257b52`.
+- Secret scan temiz; `.env`, `data/`, belgeler ve parolalar repoda yok.
 
 ## Sıradaki adımlar
 
-1. GitHub public repo'yu oluştur, commit/push et, secret scan yap.
-2. Repo URL'sini ve son commit hash'ini bu dosyaya işle.
-3. Kullanıcıya canlı URL, admin kullanıcı adı ve parola dosyasını bildir.
-4. İlk girişte admin parolasını değiştirmesini öner.
+1. Kullanıcıya canlı URL, admin kullanıcı adı ve parola dosyasını bildir.
+2. İlk girişte admin parolasını değiştirmesini öner.
+3. İsteğe bağlı: SMTP/IMAP ve e-posta bildirimleri; PostgreSQL geçişi.
 
 ## Bilinen notlar
 

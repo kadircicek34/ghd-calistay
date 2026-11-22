@@ -75,14 +75,14 @@ Kabul kriterleri:
 
 ## Faz 5 — GitHub ve dokümantasyon ⏳
 
-- [ ] Public repo `kadircicek34/ghd-calistay` oluşturuldu.
-- [ ] README, AGENTS, NOTICE, deploy notları ve test raporu push edildi.
-- [ ] Secret scan temiz; `.env`, `data/`, belgeler ve parolalar yok.
-- [ ] MIT lisansı ve Kanboard atfı korunuyor.
-- [ ] Repo public erişilebilir; son commit hash'i `docs/DURUM.md` içinde.
+- [x] Public repo `kadircicek34/ghd-calistay` oluşturuldu.
+- [x] README, AGENTS, NOTICE, deploy notları ve test raporu push edildi.
+- [x] Secret scan temiz; `.env`, `data/`, belgeler ve parolalar yok.
+- [x] MIT lisansı ve Kanboard atfı korunuyor.
+- [x] Repo public erişilebilir; ilk public commit `8257b52`.
 
 ## Faz 6 — Devir ⏳
 
-- [ ] `docs/HANDOFF.md` güncel.
+- [x] `docs/HANDOFF.md` güncel.
 - [ ] Kullanıcıya canlı URL, admin kullanıcı adı ve parola dosyası bildirildi.
-- [ ] Bilinen sınırlamalar ve sonraki adımlar yazıldı.
+- [x] Bilinen sınırlamalar ve sonraki adımlar yazıldı.

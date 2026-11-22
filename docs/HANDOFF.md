@@ -20,6 +20,7 @@ Kanboard 1.2.58 fork'u, Global Hukukçular Derneği için **GH Çalıştay** ad�
 ## 2. Erişim ve sırlar
 
 - Canlı adres: `https://calistay.globalhukukcular.com` (yayında)
+- Public repo: `https://github.com/kadircicek34/ghd-calistay` (`main`)
 - Sunucu: `169.58.198.19` (bu makine)
 - Admin kullanıcı: `kadir`
 - Admin e-posta: `kadircicek13@icloud.com`
