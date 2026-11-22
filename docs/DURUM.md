@@ -1,6 +1,6 @@
 # GH Çalıştay — DURUM
 
-Son güncelleme: 22 Kasım 2026, 18:45 (Europe/Istanbul)
+Son güncelleme: 22 Kasım 2026, 19:00 (Europe/Istanbul)
 
 ## Kısa özet
 

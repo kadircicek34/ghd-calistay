@@ -84,5 +84,5 @@ Kabul kriterleri:
 ## Faz 6 — Devir ⏳
 
 - [x] `docs/HANDOFF.md` güncel.
-- [ ] Kullanıcıya canlı URL, admin kullanıcı adı ve parola dosyası bildirildi.
+- [x] Kullanıcıya canlı URL, admin kullanıcı adı ve parola dosyası bildirildi.
 - [x] Bilinen sınırlamalar ve sonraki adımlar yazıldı.
