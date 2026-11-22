@@ -1,0 +1,121 @@
+<?php
+
+namespace Kanboard\Validator;
+
+use SimpleValidator\Validator;
+use SimpleValidator\Validators;
+use Kanboard\Core\Security\Captcha;
+
+/**
+ * Authentication Validator
+ *
+ * @package  Kanboard\Validator
+ * @author   Frederic Guillot
+ */
+class AuthValidator extends BaseValidator
+{
+    /**
+     * Validate user login form
+     *
+     * @access public
+     * @param  array   $values           Form values
+     * @return array   $valid, $errors   [0] = Success or not, [1] = List of errors
+     */
+    public function validateForm(array $values)
+    {
+        return $this->executeValidators(array('validateFields', 'validateLocking', 'validateCaptcha', 'validateCredentials'), $values);
+    }
+
+    /**
+     * Validate credentials syntax
+     *
+     * @access protected
+     * @param  array   $values           Form values
+     * @return array   $valid, $errors   [0] = Success or not, [1] = List of errors
+     */
+    protected function validateFields(array $values)
+    {
+        $v = new Validator($values, array(
+            new Validators\Required('username', t('The username is required')),
+            new Validators\MaxLength('username', t('The maximum length is %d characters', 191), 191),
+            new Validators\Required('password', t('The password is required')),
+        ));
+
+        return array(
+            $v->execute(),
+            $v->getErrors(),
+        );
+    }
+
+    /**
+     * Validate user locking
+     *
+     * @access protected
+     * @param  array   $values           Form values
+     * @return array   $valid, $errors   [0] = Success or not, [1] = List of errors
+     */
+    protected function validateLocking(array $values)
+    {
+        $result = true;
+        $errors = array();
+
+        if ($this->userLockingModel->isLocked($values['username'])) {
+            $result = false;
+            $errors['login'] = t('Your account is locked for %d minutes', BRUTEFORCE_LOCKDOWN_DURATION);
+            $this->logger->error('Account locked: '.$values['username']);
+        }
+
+        return array($result, $errors);
+    }
+
+    /**
+     * Validate password syntax
+     *
+     * @access protected
+     * @param  array   $values           Form values
+     * @return array   $valid, $errors   [0] = Success or not, [1] = List of errors
+     */
+    protected function validateCredentials(array $values)
+    {
+        $result = true;
+        $errors = array();
+
+        if (! $this->authenticationManager->passwordAuthentication($values['username'], $values['password'])) {
+            $result = false;
+            $errors['login'] = t('Bad username or password');
+        }
+
+        return array($result, $errors);
+    }
+
+    /**
+     * Validate captcha
+     *
+     * @access protected
+     * @param  array   $values           Form values
+     * @return array
+     */
+    protected function validateCaptcha(array $values)
+    {
+        $result = true;
+        $errors = array();
+
+        if ($this->userLockingModel->hasCaptcha($values['username']) || $this->captchaModel->isLocked($this->request->getIpAddress())) {
+            if (! session_exists('captcha')) {
+                $result = false;
+            } else {
+                $input = $values['captcha'] ?? '';
+                $result = is_string($input) && (new Captcha)->comparePhrases((string) session_get('captcha'), $input);
+
+                if (! $result) {
+                    $errors['login'] = t('Bad username or password');
+                }
+
+                // Invalidate captcha to avoid reuse.
+                session_remove('captcha');
+            }
+        }
+
+        return array($result, $errors);
+    }
+}

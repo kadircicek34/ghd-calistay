@@ -1,0 +1,69 @@
+{
+    "name": "kanboard/kanboard",
+    "type": "project",
+    "description": "Kanban project management software",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Frédéric Guillot"
+        }
+    ],
+    "config": {
+        "preferred-install": "dist",
+        "optimize-autoloader": true,
+        "discard-changes": true
+    },
+    "require": {
+        "php": ">=8.1.0",
+        "ext-simplexml": "*",
+        "ext-dom": "*",
+        "ext-xml": "*",
+        "ext-gd": "*",
+        "ext-mbstring": "*",
+        "ext-hash": "*",
+        "ext-openssl": "*",
+        "ext-json": "*",
+        "ext-ctype": "*",
+        "ext-filter": "*",
+        "ext-session": "*",
+        "pimple/pimple": "3.6.2",
+        "psr/log": "3.0.2",
+        "symfony/console": "6.4.50",
+        "symfony/event-dispatcher-contracts": "^3",
+        "symfony/service-contracts": "3.8.1",
+        "symfony/string": "^6.4",
+        "symfony/deprecation-contracts": "3.8.1"
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-mbstring": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php80": "*"
+    },
+    "autoload": {
+        "classmap": [
+            "app/"
+        ],
+        "psr-4": {
+            "Kanboard\\": "app/",
+            "KanboardTests\\": "tests/",
+            "MatthiasMullie\\Minify\\": "libs/minify/src/",
+            "MatthiasMullie\\PathConverter\\": "libs/path-converter/src/",
+            "SimpleQueue\\": "libs/SimpleQueue",
+            "SimpleValidator\\": "libs/SimpleValidator",
+            "Symfony\\Component\\EventDispatcher\\": "libs/event-dispatcher"
+        },
+        "psr-0": {
+            "JsonRPC": "libs/jsonrpc/src",
+            "PicoDb": "libs/picodb/lib",
+            "Parsedown": "libs/erusev/parsedown/"
+        },
+        "files": [
+            "app/functions.php",
+            "libs/swiftmailer/swift_required.php"
+        ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.0"
+    }
+}

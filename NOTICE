@@ -1,0 +1,20 @@
+GH Çalıştay
+===========
+
+This project is a customized distribution of Kanboard.
+
+Original project: https://github.com/kanboard/kanboard
+Original author: Frédéric Guillot and Kanboard contributors
+Original license: MIT (see LICENSE)
+
+Modifications for Global Hukukçular Derneği:
+- GH Çalıştay branding, Turkish landing/login/membership pages
+- Membership application and administrator approval workflow
+- Private e-Devlet document storage and download
+- Custom theme, assets and Turkish locale additions
+- Docker/Caddy deployment files
+
+The Kanboard name, logo and upstream assets remain subject to their original
+licenses and attribution. Global Hukukçular Derneği name, logo and corporate
+content are trademarks of the association and are not covered by the MIT
+license.

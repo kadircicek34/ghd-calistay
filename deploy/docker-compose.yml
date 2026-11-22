@@ -1,0 +1,37 @@
+name: ghdcalistay
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: ghd-calistay:local
+    container_name: ghdcalistay-app
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Istanbul
+      ENABLE_URL_REWRITE: "true"
+      LOG_DRIVER: stderr
+      MAIL_FROM: no-reply@globalhukukcular.com
+      MAIL_TRANSPORT: mail
+      TRUSTED_PROXY_HEADERS: X-Forwarded-For
+      TRUSTED_PROXY_NETWORKS: 172.16.0.0/12,10.0.0.0/8
+      SESSION_DURATION: "86400"
+    volumes:
+      - ghdcalistay_data:/var/www/app/data
+    networks:
+      - gakademi_default
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1/healthcheck.php"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+networks:
+  gakademi_default:
+    external: true
+
+volumes:
+  ghdcalistay_data:
+    name: ghdcalistay_data

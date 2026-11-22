@@ -1,0 +1,40 @@
+# GH Çalıştay — calistay.globalhukukcular.com
+# Bu bloğu /root/Gakademi/deploy/Caddyfile sonuna ekleyip doğrulayın:
+#   docker exec gakademi-caddy-1 caddy validate --config /etc/caddy/Caddyfile
+#   docker exec gakademi-caddy-1 caddy reload --config /etc/caddy/Caddyfile
+calistay.globalhukukcular.com {
+	encode zstd gzip
+
+	# e-Devlet belgesi yüklemesi: uygulama sınırı 10 MB + multipart payı
+	request_body {
+		max_size 12MB
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "geolocation=(), camera=(), microphone=()"
+		-Server
+	}
+
+	reverse_proxy ghdcalistay-app:80
+}
+
+# DNS yayılımı tamamlanana kadar geçici doğrulama adresi.
+calistay.169.58.198.19.nip.io {
+	encode zstd gzip
+	request_body {
+		max_size 12MB
+	}
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "geolocation=(), camera=(), microphone=()"
+		-Server
+	}
+	reverse_proxy ghdcalistay-app:80
+}
