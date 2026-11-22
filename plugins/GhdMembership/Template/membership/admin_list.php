@@ -20,10 +20,10 @@ $total = $counts['all'];
     </div>
 
     <nav class="ghd-admin-tabs" aria-label="Başvuru filtreleri">
-        <a class="<?= $status === 'pending' ? 'is-active' : '' ?>" href="<?= $tabUrl('pending') ?>">Bekleyen <span><?= (int) $counts['pending'] ?></span></a>
-        <a class="<?= $status === 'approved' ? 'is-active' : '' ?>" href="<?= $tabUrl('approved') ?>">Onaylanan <span><?= (int) $counts['approved'] ?></span></a>
-        <a class="<?= $status === 'rejected' ? 'is-active' : '' ?>" href="<?= $tabUrl('rejected') ?>">Reddedilen <span><?= (int) $counts['rejected'] ?></span></a>
         <a class="<?= $status === 'all' ? 'is-active' : '' ?>" href="<?= $tabUrl('all') ?>">Tümü <span><?= (int) $total ?></span></a>
+        <a class="<?= $status === 'approved' ? 'is-active' : '' ?>" href="<?= $tabUrl('approved') ?>">Onaylanan <span><?= (int) $counts['approved'] ?></span></a>
+        <a class="<?= $status === 'pending' ? 'is-active' : '' ?>" href="<?= $tabUrl('pending') ?>">Bekleyen <span><?= (int) $counts['pending'] ?></span></a>
+        <a class="<?= $status === 'rejected' ? 'is-active' : '' ?>" href="<?= $tabUrl('rejected') ?>">Reddedilen <span><?= (int) $counts['rejected'] ?></span></a>
     </nav>
 
     <?php if (empty($applications)): ?>

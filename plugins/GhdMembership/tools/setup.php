@@ -19,6 +19,32 @@ if (PHP_SAPI !== 'cli') {
     exit(1);
 }
 
+function ghdChownDataDirectory($directory)
+{
+    if (! function_exists('posix_getpwnam')) {
+        return;
+    }
+
+    $account = posix_getpwnam('nginx');
+
+    if (empty($account)) {
+        return;
+    }
+
+    $iterator = new \RecursiveIteratorIterator(
+        new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS),
+        \RecursiveIteratorIterator::SELF_FIRST
+    );
+
+    foreach ($iterator as $item) {
+        @chown($item->getPathname(), $account['uid']);
+        @chgrp($item->getPathname(), $account['gid']);
+    }
+
+    @chown($directory, $account['uid']);
+    @chgrp($directory, $account['gid']);
+}
+
 $appRoot = dirname(__DIR__, 3);
 require $appRoot . '/app/common.php';
 
@@ -183,6 +209,10 @@ if ((int) $container['taskFinderModel']->countByProjectId($projectId) === 0) {
         echo "Welcome task created (#{$taskId}).\n";
     }
 }
+
+// The entrypoint normally chowns data/ to nginx. When setup creates the
+// database as root, fix ownership so PHP-FPM can write sessions and WAL files.
+ghdChownDataDirectory(rtrim(DATA_DIR, '/'));
 
 echo "Setup complete.\n";
 echo "Admin username: {$adminUser}\n";

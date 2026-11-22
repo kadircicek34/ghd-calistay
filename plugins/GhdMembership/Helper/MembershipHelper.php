@@ -16,6 +16,14 @@ class MembershipHelper extends Base
             ->count();
     }
 
+    public function countRecentApproved($days = 7)
+    {
+        return (int) $this->db->table('ghd_membership_applications')
+            ->eq('status', 'approved')
+            ->gt('created_at', time() - ((int) $days * 86400))
+            ->count();
+    }
+
     public function statusLabel($status)
     {
         $labels = array(

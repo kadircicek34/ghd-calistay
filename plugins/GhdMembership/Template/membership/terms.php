@@ -13,7 +13,7 @@ include __DIR__ . '/_head.php';
         <p>GH Çalıştay, Global Hukukçular Derneği'nin üyelerine yönelik görev, proje ve etkinlik çalışmalarını ortak bir panoda yürütmek için sunulan üyelere özel bir çalışma alanıdır. Platform, hukuki danışmanlık veya avukatlık hizmeti sunmaz; panolarda yer alan içerikler dernek çalışmalarına ilişkin organizasyon bilgileridir.</p>
 
         <h2>2. Üyelik ve erişim</h2>
-        <p>Platforma erişim, başvurunun dernek yönetimi tarafından onaylanmasına bağlıdır. Başvuruda doğru, güncel ve size ait bilgiler vermekle yükümlüsünüz. Hesap bilgilerinizi üçüncü kişilerle paylaşmamalı; yetkisiz erişim şüphesini derhal yönetime bildirmelisiniz. Dernek, başvuruyu gerekçe göstermeden reddetme veya üyeliği askıya alma hakkını saklı tutar.</p>
+        <p>Platforma erişim, başvurunun otomatik olarak onaylanmasına bağlıdır; dernek yönetimi belgeleri sonradan inceleyebilir ve üyeliği iptal edebilir. Başvuruda doğru, güncel ve size ait bilgiler vermekle yükümlüsünüz. Hesap bilgilerinizi üçüncü kişilerle paylaşmamalı; yetkisiz erişim şüphesini derhal yönetime bildirmelisiniz. Dernek, başvuruyu gerekçe göstermeden reddetme veya üyeliği askıya alma hakkını saklı tutar.</p>
 
         <h2>3. Kabul edilebilir kullanım</h2>
         <ul>

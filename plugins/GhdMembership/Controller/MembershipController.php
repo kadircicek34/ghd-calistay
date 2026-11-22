@@ -121,17 +121,28 @@ class MembershipController extends BaseController
             return;
         }
 
+        $application['id'] = $applicationId;
+
+        // Memberships are auto-approved. If the account cannot be created
+        // (for example because of a username race), the application stays
+        // pending so an administrator can review it manually.
+        $autoApproved = $this->membershipModel->approve($applicationId, $application, 0);
+
         session_set('ghd_application_username', $clean['username']);
+        session_set('ghd_application_approved', $autoApproved ? 1 : 0);
         $this->response->redirect($this->publicUrl('success'));
     }
 
     public function success()
     {
         $username = session_get('ghd_application_username');
+        $approved = (bool) session_get('ghd_application_approved');
         session_remove('ghd_application_username');
+        session_remove('ghd_application_approved');
 
         $this->response->html($this->template->render('GhdMembership:membership/success', array(
             'username' => $username ?: '',
+            'approved' => $approved,
         )));
     }
 
@@ -208,10 +219,10 @@ class MembershipController extends BaseController
     {
         $this->requireAdministrator();
 
-        $status = $this->request->getStringParam('status', 'pending');
+        $status = $this->request->getStringParam('status', 'all');
 
         if (! in_array($status, array('pending', 'approved', 'rejected', 'all'), true)) {
-            $status = 'pending';
+            $status = 'all';
         }
 
         $this->response->html($this->helper->layout->app('GhdMembership:membership/admin_list', array(
@@ -273,44 +284,13 @@ class MembershipController extends BaseController
             return;
         }
 
-        $this->db->startTransaction();
-
-        $userId = $this->db->table('users')->persist(array(
-            'username' => $application['username'],
-            'password' => $application['password_hash'],
-            'is_active' => 1,
-            'role' => Role::APP_USER,
-            'name' => $application['full_name'],
-            'email' => $application['email'],
-            'language' => 'tr_TR',
-            'theme' => 'light',
-            'timezone' => 'Europe/Istanbul',
-            'notifications_enabled' => 0,
-            'notifications_filter' => 4,
-            'token' => '',
-        ));
+        $userId = $this->membershipModel->approve($id, $application, $this->userSession->getId());
 
         if (! $userId) {
-            $this->db->cancelTransaction();
-            $this->flash->failure('Üye hesabı oluşturulamadı. Lütfen tekrar deneyin.');
+            $this->flash->failure('Başvuru onaylanamadı. Lütfen tekrar deneyin.');
             $this->response->redirect($this->publicUrl('show', array('id' => $id)));
             return;
         }
-
-        if (! $this->membershipModel->markApproved($id, $userId, $this->userSession->getId())) {
-            $this->db->cancelTransaction();
-            $this->flash->failure('Başvuru durumu güncellenemedi. Lütfen tekrar deneyin.');
-            $this->response->redirect($this->publicUrl('show', array('id' => $id)));
-            return;
-        }
-
-        $projectId = (int) $this->configModel->get('ghd_project_id', 0);
-
-        if ($projectId > 0 && $this->projectModel->exists($projectId)) {
-            $this->projectUserRoleModel->addUser($projectId, $userId, Role::PROJECT_MEMBER);
-        }
-
-        $this->db->closeTransaction();
 
         $this->flash->success('Başvuru onaylandı. ' . $application['full_name'] . ' artık GH Çalıştay panosuna giriş yapabilir.');
         $this->response->redirect($this->publicUrl('admin'));
@@ -334,7 +314,7 @@ class MembershipController extends BaseController
             throw new PageNotFoundException();
         }
 
-        if ($application['status'] !== 'pending') {
+        if (! in_array($application['status'], array('pending', 'approved'), true)) {
             $this->flash->failure('Bu başvuru daha önce işlenmiş.');
             $this->response->redirect($this->publicUrl('admin'));
             return;
@@ -343,18 +323,40 @@ class MembershipController extends BaseController
         $note = trim((string) $this->request->getValue('review_note'));
 
         if (mb_strlen($note) < 3) {
-            $this->flash->failure('Red gerekçesi en az 3 karakter olmalıdır.');
+            $this->flash->failure('Red veya iptal gerekçesi en az 3 karakter olmalıdır.');
             $this->response->redirect($this->publicUrl('show', array('id' => $id)));
             return;
         }
 
+        $this->db->startTransaction();
+
+        if ($application['status'] === 'approved' && ! empty($application['user_id'])) {
+            // Disable the account and clear its token. Existing sessions become
+            // invalid on the next request because isValidSession() requires an
+            // active user.
+            if (! $this->db->table('users')->eq('id', (int) $application['user_id'])->update(array(
+                'is_active' => 0,
+                'token' => '',
+            ))) {
+                $this->db->cancelTransaction();
+                $this->flash->failure('Üyelik devre dışı bırakılamadı. Lütfen tekrar deneyin.');
+                $this->response->redirect($this->publicUrl('show', array('id' => $id)));
+                return;
+            }
+        }
+
         if (! $this->membershipModel->markRejected($id, mb_substr($note, 0, 2000), $this->userSession->getId())) {
+            $this->db->cancelTransaction();
             $this->flash->failure('Başvuru reddedilemedi. Lütfen tekrar deneyin.');
             $this->response->redirect($this->publicUrl('show', array('id' => $id)));
             return;
         }
 
-        $this->flash->success('Başvuru reddedildi ve gerekçe kaydedildi.');
+        $this->db->closeTransaction();
+
+        $this->flash->success($application['status'] === 'approved'
+            ? 'Üyelik iptal edildi; hesap devre dışı bırakıldı ve gerekçe kaydedildi.'
+            : 'Başvuru reddedildi ve gerekçe kaydedildi.');
         $this->response->redirect($this->publicUrl('admin'));
     }
 
@@ -517,8 +519,14 @@ class MembershipController extends BaseController
                 }
             }
 
-            if (! isset($errors['email']) && $this->db->table('users')->eq('email', $email)->exists()) {
-                $errors['email'] = 'Bu e-posta ile kayıtlı bir hesap var. Lütfen giriş yapın.';
+            if (! isset($errors['email'])) {
+                $existingUser = $this->db->table('users')->eq('email', $email)->findOne();
+
+                if ($existingUser) {
+                    $errors['email'] = ! empty($existingUser['is_active'])
+                        ? 'Bu e-posta ile kayıtlı bir hesap var. Lütfen giriş yapın.'
+                        : 'Bu e-posta ile daha önce açılmış bir hesap var. Dernek yönetimiyle iletişime geçin.';
+                }
             }
 
             if (! isset($errors['username']) && $this->db->table('users')->eq('username', $username)->exists()) {

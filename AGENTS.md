@@ -28,21 +28,24 @@ Bir görev, aşağıdakilerin tamamı kanıtlanmadan "bitti" sayılmaz:
    sayfalara erişir; uygulama rotaları login'e yönlenir.
 3. Başvuru formu doğum tarihi, hukuk durumu (öğrenci/mezun), e-Devlet belgesi,
    KVKK ve kullanım koşulları onayı olmadan gönderilemez.
-4. Başvuru `pending` durumunda saklanır; yönetici onayı olmadan hesap açılmaz.
+4. Başvuru otomatik onaylanır; üye hesabı anında oluşturulur. Otomatik onay
+   tamamlanamazsa başvuru `pending` kalır ve yönetici incelemesine düşer.
 5. Yüklenen e-Devlet belgesi public erişime açık değildir; yalnızca yetkili
    admin görüntüleyebilir.
 6. Admin başvuruyu doğum tarihi, hukuk durumu ve belgeyle birlikte görür;
-   onaylar/reddeder. Ret gerekçesi başvuru sahibine gösterilir.
-7. Onaylanan üye giriş yapıp panoyu kullanabilir; bekleyen/reddedilen başvuru
-   sahibi açık Türkçe hata alır ve hesap açılamaz.
+   gerekirse üyeliği gerekçeli olarak iptal eder. Ret/iptal gerekçesi başvuru
+   sahibine gösterilir.
+7. Otomatik onaylanan üye hemen giriş yapıp panoyu kullanabilir; iptal edilen
+   veya reddedilen başvuru sahibi açık Türkçe hata alır ve hesap açılamaz.
 8. Uygulama markası GH Çalıştay'dır; logo, favicon, metadata ve varsayılan
    arayüz dili Türkçedir.
 9. Canlıda geçerli HTTPS sertifikası vardır; HTTP, HTTPS'e yönlenir; DNS
    `calistay` kaydı sunucuya gider.
 10. Public GitHub reposunda sır (parola, API anahtarı, `.env`, belge) yoktur;
     MIT lisansı ve Kanboard atfı korunur.
-11. Playwright tarayıcı testleri landing, başvuru, admin onayı, üye girişi,
-    pano erişimi, red akışı ve korumalı rotalar için geçerlidir.
+11. Playwright tarayıcı testleri landing, başvuru, otomatik onay, anında üye
+    girişi, pano erişimi, admin belge incelemesi/iptali, red akışı ve korumalı
+    rotalar için geçerlidir.
 12. Mevcut `akademi`, `dil`, `spor`, `oyun` ve `kariyer` servisleri bozulmamıştır.
 
 ## 3. Süreç

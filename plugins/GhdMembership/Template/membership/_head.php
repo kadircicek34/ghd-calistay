@@ -9,7 +9,7 @@ $adminUrl = $this->url->href('MembershipController', 'admin', array('plugin' => 
 $isLogged = $this->user->getId() > 0;
 $isAdmin = $isLogged && $this->user->isAdmin();
 $pageTitle = isset($page_title) ? $page_title : 'GH Çalıştay';
-$pageDescription = isset($page_description) ? $page_description : 'Global Hukukçular Derneği üyelerine özel görev, proje ve etkinlik panosu.';
+$pageDescription = isset($page_description) ? $page_description : 'Global Hukukçular Derneği üyelerine özel görev, proje ve etkinlik panosu. Başvurunuzu yapın, üyeliğiniz anında onaylansın.';
 ?>
 <!DOCTYPE html>
 <html lang="tr">

@@ -20,7 +20,7 @@ include __DIR__ . '/_head.php';
     <div class="ghd-page-hero-inner">
         <p class="ghd-eyebrow"><span></span> Üyelik başvurusu</p>
         <h1>GH Çalıştay'a <em>katılın.</em></h1>
-        <p>Formu doldurun; başvurunuz dernek yönetimi tarafından incelendikten sonra panoya erişiminiz açılır.</p>
+        <p>Formu doldurun; başvurunuz anında onaylansın ve panoya erişiminiz hemen açılsın.</p>
     </div>
 </section>
 
@@ -37,7 +37,7 @@ include __DIR__ . '/_head.php';
                 </ul>
                 <div class="ghd-aside-note">
                     <strong>Belge güvenliği</strong>
-                    <p>e-Devlet belgeniz herkese açık değildir; yalnızca yetkili dernek yöneticileri görüntüleyebilir.</p>
+                    <p>e-Devlet belgeniz herkese açık değildir; yalnızca yetkili dernek yöneticileri görüntüleyebilir. Başvurunuz otomatik onaylansa da belgeniz ayrıca incelenebilir.</p>
                 </div>
             </div>
             <div class="ghd-aside-card ghd-aside-card-muted">
@@ -52,7 +52,7 @@ include __DIR__ . '/_head.php';
             <div class="ghd-form-card-head">
                 <span class="ghd-form-step">Başvuru formu</span>
                 <h2>Bilgilerinizi paylaşın</h2>
-                <p>Tüm alanlar zorunludur. Bilgileriniz yalnızca üyelik doğrulaması ve platform erişimi için kullanılır.</p>
+                <p>Tüm alanlar zorunludur. Bilgileriniz yalnızca üyelik doğrulaması ve platform erişimi için kullanılır. Başvurunuz otomatik onaylanır; hemen giriş yapabilirsiniz.</p>
             </div>
 
             <?php if (! empty($errors)): ?>
@@ -185,7 +185,7 @@ include __DIR__ . '/_head.php';
 
                 <div class="ghd-form-actions">
                     <button type="submit" class="ghd-button ghd-button-primary ghd-button-large">Başvuruyu gönder</button>
-                    <span>Başvurunuz yönetici onayına gönderilir.</span>
+                    <span>Başvurunuz otomatik onaylanır; hemen giriş yapabilirsiniz.</span>
                 </div>
             </form>
         </div>

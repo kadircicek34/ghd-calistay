@@ -5,9 +5,10 @@ Son güncelleme: 22 Kasım 2026, 19:00 (Europe/Istanbul)
 ## Kısa özet
 
 Kanboard 1.2.58, Global Hukukçular Derneği için **GH Çalıştay** adıyla
-özelleştirildi ve canlıya alındı. Üyelik başvurusu, e-Devlet belgesi, admin
-onayı/reddi, Türkçe kurumsal arayüz, üyelere özel kanban panosu, DNS ve TLS
-hazır. Staging E2E testleri ve canlı smoke/üyelik akışı PASS.
+özelleştirildi ve canlıya alındı. Üyelik başvurusu, e-Devlet belgesi, otomatik
+üyelik onayı, admin belge incelemesi/iptali, Türkçe kurumsal arayüz, üyelere
+özel kanban panosu, DNS ve TLS hazır. Staging E2E testleri ve canlı
+smoke/üyelik akışı PASS.
 
 | | |
 |---|---|
@@ -24,15 +25,19 @@ hazır. Staging E2E testleri ve canlı smoke/üyelik akışı PASS.
 
 - Logo ve bronz-altın/lacivert/krem kurumsal tema.
 - Landing, giriş, başvuru, başarı, durum, KVKK, kullanım koşulları sayfaları.
-- `GhdMembership` eklentisi: başvuru, durum, admin onay/red, belge indirme.
-- Kanboard kullanıcısı oluşturma + varsayılan `GH Çalıştay` projesine üyelik.
+- `GhdMembership` eklentisi: başvuru, otomatik onay, durum, admin iptal/red,
+  belge indirme.
+- Başvuruda anında Kanboard kullanıcısı oluşturma + varsayılan `GH Çalıştay`
+  projesine üyelik.
 - Varsayılan proje, Türkçe sütunlar, karşılama görevi, admin hesabı.
 - Dockerfile, compose, Caddy snippet, setup ve yedekleme scriptleri.
 - E2E testleri 22+ senaryo PASS; PHP lint temiz.
 - Production container healthy; DNS A kaydı canlı; Let's Encrypt sertifikası
   geçerli; HTTP → HTTPS 308.
 - Canlı smoke: landing/login/başvuru/admin/mobil PASS; canlı üyelik akışı
-  (başvuru → onay → giriş → pano) PASS; test verisi temizlendi (0 başvuru).
+  (başvuru → otomatik onay → giriş → pano) PASS; canlı test verisi silindi.
+- Mevcut 2 gerçek bekleyen başvuru yeni politikayla otomatik onaylandı; belgeleri
+  korunuyor. Admin listesinde 2 onaylı, 0 bekleyen başvuru var.
 - `docs/screenshots/` altında staging ve canlı kanıt görselleri.
 - Public GitHub repo oluşturuldu; ilk public commit `8257b52`.
 - Secret scan temiz; `.env`, `data/`, belgeler ve parolalar repoda yok.

@@ -23,19 +23,19 @@ Sonuç: **PASS** (22.11.2026, 18:23).
 | 2 | Mobil 390×844 yatay taşma yok | ✅ (overflow ≤ 2px) |
 | 3 | Boş başvuru reddedilir; KVKK hatası görünür | ✅ |
 | 3b | `.txt` dosyası belge olarak reddedilir | ✅ |
-| 4 | Geçerli öğrenci başvurusu kaydedilir | ✅ |
-| 5 | Durum sorgusu `Onay bekliyor` | ✅ |
-| 6 | Bekleyen kullanıcı girişi engellenir; Türkçe açıklama | ✅ |
-| 7 | Admin dashboard bekleyen uyarısı + dropdown linki | ✅ |
+| 4 | Geçerli öğrenci başvurusu kaydedilir ve otomatik onaylanır | ✅ |
+| 5 | Durum sorgusu `Onaylandı` | ✅ |
+| 6 | Üye, admin müdahalesi olmadan hemen giriş yapar | ✅ |
+| 7 | Admin dashboard son otomatik onayları gösterir; dropdown linki | ✅ |
 | 8 | Admin başvuru detayı: doğum tarihi, hukuk durumu, okul, belge | ✅ |
 | 9 | Belge indirme çalışır | ✅ |
-| 10 | Admin onayı üye hesabı oluşturur | ✅ |
+| 10 | Otomatik onay üye hesabı oluşturur | ✅ |
 | 11 | Onay sonrası durum `Onaylandı` + giriş CTA | ✅ |
 | 12 | Onaylı üye girişi ve dashboard | ✅ |
 | 13 | Üye panoyu açar; Türkçe sütunlar + hoş geldin görevi | ✅ |
 | 14 | Üye admin başvuru sayfasında 403 alır | ✅ |
-| 15 | Red akışı gerekçeyle çalışır; durum `Reddedildi` | ✅ |
-| 16 | Reddedilen kullanıcı girişinde gerekçe görünür | ✅ |
+| 15 | Admin, otomatik onaylı üyeliği gerekçeyle iptal eder | ✅ |
+| 16 | İptal edilen kullanıcı girişinde gerekçe görünür | ✅ |
 | 17 | Anonim belge erişimi engellenir (302/403) | ✅ |
 | 18 | Üye belge erişimi engellenir (302/403) | ✅ |
 | 19 | Admin belge erişimi CSRF olmadan 403 | ✅ |
@@ -55,12 +55,12 @@ Sonuç: **PASS** (22.11.2026, 18:23).
 | HSTS / nosniff / frame / referrer / permissions | ✅ Caddy başlıkları |
 | Landing mobil 390×844 | ✅ yatay taşma yok |
 | Login / başvuru / admin | ✅ 200 |
-| Canlı üyelik akışı | ✅ başvuru → admin onayı → üye girişi → pano |
-| Canlı test verisi temizliği | ✅ uygulama + kullanıcı + belge silindi; 0 başvuru |
+| Canlı üyelik akışı | ✅ başvuru → otomatik onay → üye girişi → pano |
+| Canlı test verisi temizliği | ✅ test uygulaması + kullanıcı + belge silindi; 2 gerçek bekleyen başvuru otomatik onaylandı, 0 bekleyen |
 | Mevcut servisler | dil/spor/oyun/kariyer 200; akademi bilinen 500 |
 
-Canlı ekran görüntüleri: `docs/screenshots/12-live-landing.png`,
-`docs/screenshots/13-live-member-board.png`.
+Canlı ekran görüntüleri: `docs/screenshots/13-live-landing.png`,
+`docs/screenshots/14-live-member-board.png`.
 
 ## PHP lint
 
@@ -92,18 +92,27 @@ Sonuç: Tüm eklenti dosyaları ve `app/Core/Http/Route.php` için
 - `01-landing-desktop.png`
 - `02-landing-mobile.png`
 - `03-application-validation.png`
-- `04-application-success.png`
-- `05-status-pending.png`
-- `07-admin-application-detail.png`
-- `08b-status-approved.png`
-- `09b-member-board.png`
-- `10-member-admin-forbidden.png`
-- `11-status-rejected.png`
+- `03b-application-invalid-file.png`
+- `04-application-success.png` — otomatik onay
+- `05-status-approved.png`
+- `06-member-dashboard.png`
+- `06b-member-board.png`
+- `07-admin-application-detail.png` — otomatik onay + iptal formu
+- `08-admin-revoked.png`
+- `08b-revoked-dashboard.png`
+- `09-member-admin-forbidden.png`
+- `10-status-rejected.png`
+- `11-login-rejected.png`
+- `12-duplicate-application.png`
+- `13-live-landing.png`
+- `14-live-member-board.png`
 
 Test görsellerindeki `example.com` adresleri ve isimler sentetiktir.
 
 ## Bilinen sınırlamalar
 
+- Üyelikler otomatik onaylanır. e-Devlet belgesi incelemesi retrospektiftir;
+  yönetim belgeyi sonradan inceleyip üyeliği iptal edebilir.
 - E-posta gönderimi yapılandırılmadı; başvuru durumu web üzerinden sorgulanır.
 - SQLite kullanılıyor; dernek ölçeğinde yeterli, yüksek eşzamanlı yazmada
   PostgreSQL'e geçiş değerlendirilebilir.

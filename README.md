@@ -14,16 +14,19 @@ ve yönetici onayından sonra ortak kanban panosuna erişir.
 
 ## Öne çıkanlar
 
-- **Üyelere özel erişim:** Herkese açık kayıt yoktur. Hesap yalnızca yönetici
-  onayından sonra oluşturulur.
+- **Üyelere özel erişim:** Herkese açık kayıt yoktur. Başvurular otomatik
+  onaylanır; hesap anında oluşturulur. Yönetim belgeleri sonradan inceleyebilir
+  ve üyeliği iptal edebilir.
 - **Üyelik başvurusu:** Ad soyad, kullanıcı adı, e-posta, telefon, doğum
   tarihi, hukuk öğrencisi/mezunu bilgisi, okul, mezuniyet yılı, e-Devlet
   belgesi ve KVKK/kullanım koşulları onayı.
 - **Güvenli belge saklama:** Belgeler web kökü dışında, rastgele dosya
   adlarıyla ve `0600` izinleriyle tutulur. Yalnızca yönetici oturumu ve
   tek kullanımlık CSRF anahtarıyla indirilebilir.
-- **Yönetici incelemesi:** Bekleyen başvuru sayacı, başvuru detayı, belge
-  görüntüleme, onaylama ve gerekçeli reddetme.
+- **Otomatik onay:** Form gönderildiğinde üyelik anında açılır; kullanıcı hemen
+  giriş yapabilir.
+- **Yönetici denetimi:** Otomatik onaylanan başvurular, belge görüntüleme,
+  gerekçeli reddetme/iptal ve bekleyen istisnalar için manuel onay.
 - **Türkçe kurumsal arayüz:** Lacivert, bronz-altın ve krem paleti; özel
   landing, giriş, başvuru, durum ve yönetim ekranları; mobil uyumlu.
 - **Kanban:** Projeler, sütunlar, görevler, sorumlular, yorumlar ve dosyalar
@@ -70,6 +73,13 @@ GHD_ADMIN_PASSWORD='güçlü-bir-şifre' \
   ghdcalistay-app php /var/www/app/plugins/GhdMembership/tools/setup.php --force
 ```
 
+Mevcut bekleyen başvuruları yeni otomatik onay politikasına geçirmek için:
+
+```bash
+docker exec ghdcalistay-app php \
+  /var/www/app/plugins/GhdMembership/tools/approve-pending.php
+```
+
 Ayrıntılı dağıtım, Caddy ve yedekleme notları: [`deploy/README.md`](deploy/README.md).
 
 ## Testler
@@ -86,9 +96,9 @@ NODE_PATH=/path/to/node_modules \
 node tests/e2e/membership.spec.js
 ```
 
-Test kapsamı: landing, mobil taşma, zorunlu alanlar, geçersiz belge, başvuru,
-durum sorgusu, bekleyen giriş engeli, admin belge indirme/onay, üye girişi,
-pano erişimi, admin yetkisiz erişim, red akışı, CSRF ve belge gizliliği.
+Test kapsamı: landing, mobil taşma, zorunlu alanlar, geçersiz belge, otomatik
+onay, anında üye girişi, pano erişimi, admin belge indirme, üyelik iptali,
+admin yetkisiz erişim, red akışı, CSRF ve belge gizliliği.
 Ayrıntılar ve kanıtlar: [`docs/test-report.md`](docs/test-report.md).
 
 ## Güvenlik

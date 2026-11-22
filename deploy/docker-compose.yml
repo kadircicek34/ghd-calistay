@@ -19,6 +19,9 @@ services:
       SESSION_DURATION: "86400"
     volumes:
       - ghdcalistay_data:/var/www/app/data
+      # Plugin code is mounted read-only from the repository so updates do not
+      # get stuck in the base image's anonymous /plugins volume.
+      - ../plugins:/var/www/app/plugins:ro
     networks:
       - gakademi_default
     healthcheck:

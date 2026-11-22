@@ -3,6 +3,7 @@
 namespace Kanboard\Plugin\GhdMembership\Model;
 
 use Kanboard\Core\Base;
+use Kanboard\Core\Security\Role;
 
 /**
  * Membership application data access.
@@ -79,6 +80,14 @@ class MembershipModel extends Base
         return (int) $this->db->table(self::TABLE)->count();
     }
 
+    public function countRecentApproved($days = 7)
+    {
+        return (int) $this->db->table(self::TABLE)
+            ->eq('status', self::STATUS_APPROVED)
+            ->gt('created_at', time() - ((int) $days * 86400))
+            ->count();
+    }
+
     public function countRecentByIp($ip, $seconds = 3600)
     {
         if ($ip === '') {
@@ -94,6 +103,62 @@ class MembershipModel extends Base
     public function create(array $values)
     {
         return $this->db->table(self::TABLE)->persist($values);
+    }
+
+    /**
+     * Create the Kanboard account and mark the application approved.
+     *
+     * @return int|false New user id, or false on failure.
+     */
+    public function approve($id, array $application, $adminId = 0)
+    {
+        $userExists = $this->db->table('users')
+            ->beginOr()
+            ->eq('username', $application['username'])
+            ->eq('email', $application['email'])
+            ->closeOr()
+            ->exists();
+
+        if ($userExists) {
+            return false;
+        }
+
+        $this->db->startTransaction();
+
+        $userId = $this->db->table('users')->persist(array(
+            'username' => $application['username'],
+            'password' => $application['password_hash'],
+            'is_active' => 1,
+            'role' => Role::APP_USER,
+            'name' => $application['full_name'],
+            'email' => $application['email'],
+            'language' => 'tr_TR',
+            'theme' => 'light',
+            'timezone' => 'Europe/Istanbul',
+            'notifications_enabled' => 0,
+            'notifications_filter' => 4,
+            'token' => '',
+        ));
+
+        if (! $userId) {
+            $this->db->cancelTransaction();
+            return false;
+        }
+
+        if (! $this->markApproved($id, $userId, (int) $adminId)) {
+            $this->db->cancelTransaction();
+            return false;
+        }
+
+        $projectId = (int) $this->configModel->get('ghd_project_id', 0);
+
+        if ($projectId > 0 && $this->projectModel->exists($projectId)) {
+            $this->projectUserRoleModel->addUser($projectId, $userId, Role::PROJECT_MEMBER);
+        }
+
+        $this->db->closeTransaction();
+
+        return (int) $userId;
     }
 
     public function markApproved($id, $userId, $adminId)

@@ -15,8 +15,8 @@ Kanboard 1.2.58 için Global Hukukçular Derneği üyelik ve marka eklentisi.
 | `/kvkk`, `/kullanim-kosullari` | Public | Yasal metinler |
 | `/admin/uyelik-basvurulari` | Admin | Başvuru listesi |
 | `/admin/uyelik-basvurulari/:id` | Admin | Detay + karar |
-| `/admin/uyelik-basvurulari/:id/onayla` | Admin + CSRF | Hesap oluşturur |
-| `/admin/uyelik-basvurulari/:id/reddet` | Admin + CSRF | Gerekçeli ret |
+| `/admin/uyelik-basvurulari/:id/onayla` | Admin + CSRF | İstisnai bekleyen başvuruyu onaylar |
+| `/admin/uyelik-basvurulari/:id/reddet` | Admin + CSRF | Gerekçeli ret / otomatik onaylı üyeliği iptal |
 | `/admin/uyelik-basvurulari/:id/belge` | Admin + CSRF | Belge indirir |
 
 ## Veri modeli
@@ -41,8 +41,21 @@ Kanboard 1.2.58 için Global Hukukçular Derneği üyelik ve marka eklentisi.
   `no-store`, `attachment` başlıkları gönderilir.
 - Başvuru formunda honeypot ve IP başına saatlik limit
   (`ghd_hourly_application_limit`, varsayılan 10).
-- Onayda rol `app-user` sabittir; kullanıcı adı/e-posta çakışması kontrol edilir.
-- Bekleyen/reddedilen başvuru için kullanıcı hesabı oluşturulmaz.
+- Başvuru kaydedilince otomatik onay denenir; rol `app-user` sabittir,
+  kullanıcı adı/e-posta çakışması kontrol edilir.
+- Otomatik onay tamamlanamazsa başvuru `pending` kalır; admin manuel onaylar.
+- Admin, onaylı üyeliği iptal ettiğinde hesap `is_active=0` yapılır; mevcut
+  oturum bir sonraki istekte geçersiz olur.
+
+## Bekleyen başvuruları onaylama
+
+```bash
+docker exec ghdcalistay-app php \
+  /var/www/app/plugins/GhdMembership/tools/approve-pending.php
+```
+
+`--dry-run` destekler. Otomatik onay tamamlanamayan eski `pending` kayıtları
+hesap oluşturur, projeye ekler ve `approved` yapar; belgeleri silmez.
 
 ## Kurulum
 

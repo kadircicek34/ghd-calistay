@@ -11,10 +11,14 @@ Kanboard 1.2.58 fork'u, Global Hukukçular Derneği için **GH Çalıştay** ad�
 
 - Kurumsal landing page (`/`) — lacivert/bronz-altın/krem, logo, Türkçe, mobil.
 - Üyelik başvurusu (`/basvuru`) — doğum tarihi, hukuk durumu, e-Devlet belgesi,
-  KVKK + kullanım koşulları, honeypot, saatlik IP limiti.
+  KVKK + kullanım koşulları, honeypot, saatlik IP limiti. Başvuru kaydedilince
+  üyelik otomatik onaylanır ve Kanboard hesabı anında oluşturulur.
 - Başvuru durumu (`/basvuru/durum`) — pending/approved/rejected + ret gerekçesi.
-- Admin (`/admin/uyelik-basvurulari`) — belge indirme, onaylama, gerekçeli ret.
-- Onaylanan üye için Kanboard hesabı + `GH Çalıştay` projesine üyelik.
+- Admin (`/admin/uyelik-basvurulari`) — tüm başvurular, belge indirme,
+  otomatik onaylı üyeliği gerekçeli iptal; otomatik onay tamamlanamayan
+  istisnalar için manuel onay.
+- Otomatik onaylanan üye anında giriş yapabilir; hesap `GH Çalıştay` projesine
+  üye olarak eklenir.
 - Üyelere özel kanban; public kayıt yok.
 
 ## 2. Erişim ve sırlar
@@ -71,8 +75,11 @@ değiştirmez. Staging'de saatlik başvuru limitini yükseltmek için
   22.11.2026 – 20.02.2027; `ssl_verify_result=0`.
 - HTTP → HTTPS: 308 Permanent Redirect.
 - Canlı smoke: landing/login/başvuru/admin/mobil PASS.
-- Canlı üyelik akışı: test başvurusu → onay → giriş → pano PASS; ardından
-  uygulama, kullanıcı ve belge silindi. Admin listesi 0 başvuru.
+- Canlı üyelik akışı: test başvurusu → otomatik onay → giriş → pano PASS;
+  ardından test uygulaması, kullanıcı ve belge silindi.
+- Mevcut 2 gerçek bekleyen başvuru yeni politikayla otomatik onaylandı; belgeleri
+  korunuyor. Admin listesinde 2 onaylı, 0 bekleyen başvuru var.
+- Otomatik onaylı üyelik iptali staging E2E'de doğrulandı.
 - Mevcut servisler: dil/spor/oyun/kariyer 200; akademi bilinen 500 (önceden de
   500 idi).
 

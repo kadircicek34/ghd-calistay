@@ -32,6 +32,18 @@ günceller. Sonraki çalıştırmalarda `--force` verilmedikçe şifreyi değiş
 Yalnızca ilk kurulumda çalıştırın; parola `/root/çalıştay/admin-credentials.txt`
 dosyasında 0600 izinleriyle saklanır ve repoya commit edilmez.
 
+## Bekleyen başvuruları otomatik onaya geçirme
+
+Üyelikler yeni başvurularda otomatik onaylanır. Eski `pending` kayıtları tek
+seferde onaylamak için:
+
+```bash
+docker exec ghdcalistay-app php \
+  /var/www/app/plugins/GhdMembership/tools/approve-pending.php
+```
+
+Önce `--dry-run` ile kontrol edilebilir. Belge dosyaları silinmez.
+
 ## Güncelleme
 
 ```bash
@@ -39,6 +51,11 @@ cd /root/çalıştay/kanboard
 git pull
 docker compose -f deploy/docker-compose.yml up -d --build
 ```
+
+`plugins/` dizini container'a **read-only bind mount** edilir. Böylece base
+image'ın anonim `/plugins` volume'ünde eski kod kalması engellenir; `git pull`
+sonrası container'ı yeniden başlatmak eklenti güncellemesi için yeterlidir.
+Şema değişiklikleri ilk istekte otomatik uygulanır.
 
 ## Sağlık ve loglar
 

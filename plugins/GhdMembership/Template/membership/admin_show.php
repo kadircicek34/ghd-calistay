@@ -7,6 +7,7 @@ $rejectUrl = $this->url->href('MembershipController', 'reject', array('plugin' =
 $documentUrl = $this->url->href('MembershipController', 'document', array('plugin' => 'GhdMembership', 'id' => $application['id']), true);
 $statusClass = $this->ghdMembership->statusClass($application['status']);
 $userUrl = ! empty($application['user_id']) ? $this->url->href('UserViewController', 'show', array('user_id' => $application['user_id'])) : '';
+$isAutoApproved = empty($application['reviewed_by']);
 ?>
 <div class="ghd-admin-page">
     <div class="ghd-admin-back">
@@ -86,10 +87,22 @@ $userUrl = ! empty($application['user_id']) ? $this->url->href('UserViewControll
                 <div class="ghd-decision-result ghd-decision-approved">
                     <span>✓</span>
                     <div>
-                        <strong>Başvuru onaylandı</strong>
-                        <p><?= $this->text->e($this->ghdMembership->formatDate($application['reviewed_at'])) ?> tarihinde üye hesabı oluşturuldu.</p>
+                        <strong><?= $isAutoApproved ? 'Otomatik onaylandı' : 'Başvuru onaylandı' ?></strong>
+                        <p><?= $this->text->e($this->ghdMembership->formatDate($application['reviewed_at'])) ?> tarihinde <?= $isAutoApproved ? 'otomatik olarak onaylandı ve üye hesabı oluşturuldu' : 'üye hesabı oluşturuldu' ?>.</p>
                         <?php if ($userUrl): ?><a href="<?= $userUrl ?>">Üye profilini aç</a><?php endif ?>
                     </div>
+                </div>
+                <div class="ghd-admin-revoke">
+                    <h4>Üyeliği iptal et</h4>
+                    <p>Hesap devre dışı bırakılır ve kullanıcı bir sonraki isteğinde giriş yapamaz. Gerekçe başvuru sahibine gösterilir.</p>
+                    <form method="post" action="<?= $rejectUrl ?>" class="ghd-decision-form">
+                        <?= $this->form->csrf() ?>
+                        <div class="ghd-field">
+                            <label for="review_note">İptal gerekçesi <span>(zorunlu)</span></label>
+                            <textarea id="review_note" name="review_note" rows="3" maxlength="2000" placeholder="Başvuru sahibine gösterilecek kısa gerekçe"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-red" data-confirm="Bu üyeliği iptal etmek istiyor musunuz? Hesap devre dışı bırakılacak.">Üyeliği iptal et</button>
+                    </form>
                 </div>
             <?php else: ?>
                 <div class="ghd-decision-result ghd-decision-rejected">

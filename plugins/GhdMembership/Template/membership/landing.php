@@ -1,6 +1,6 @@
 <?php
 $page_title = 'GH Çalıştay | Global Hukukçular Derneği';
-$page_description = 'Global Hukukçular Derneği üyelerine özel görev, proje ve etkinlik panosu. Başvurunuzu yapın, onaydan sonra ekibinizle birlikte çalışın.';
+$page_description = 'Global Hukukçular Derneği üyelerine özel görev, proje ve etkinlik panosu. Başvurunuzu yapın, üyeliğiniz otomatik onaylansın ve hemen ekibinizle çalışın.';
 $applyUrl = $this->url->href('MembershipController', 'apply', array('plugin' => 'GhdMembership'));
 $loginUrl = $this->url->href('AuthController', 'login');
 $dashboardUrl = $this->url->href('DashboardController', 'show');
@@ -92,7 +92,7 @@ include __DIR__ . '/_head.php';
 
 <section class="ghd-stat-strip" aria-label="Platform bilgileri">
     <div class="ghd-stat"><strong>01</strong><span>Başvuru</span><small>Kısa form ve e-Devlet belgesi</small></div>
-    <div class="ghd-stat"><strong>02</strong><span>Yönetici onayı</span><small>Dernek yönetimi inceler</small></div>
+    <div class="ghd-stat"><strong>02</strong><span>Otomatik onay</span><small>Üyeliğiniz anında açılır</small></div>
     <div class="ghd-stat"><strong>03</strong><span>Ortak pano</span><small>Görevler, ekipler, etkinlikler</small></div>
     <div class="ghd-stat"><strong>04</strong><span>Güvenli erişim</span><small>Yalnızca onaylı üyeler</small></div>
 </section>
@@ -149,13 +149,13 @@ include __DIR__ . '/_head.php';
         </article>
         <article class="ghd-step">
             <span class="ghd-step-number">02</span>
-            <h3>Yönetici onayı</h3>
-            <p>Dernek yönetimi başvurunuzu ve belgenizi inceler. Durumunuzu istediğiniz an sorgulayabilirsiniz.</p>
+            <h3>Otomatik onay</h3>
+            <p>Başvurunuz anında onaylanır; hesabınız ve pano erişiminiz hemen hazır olur.</p>
         </article>
         <article class="ghd-step">
             <span class="ghd-step-number">03</span>
             <h3>Panonuza girin</h3>
-            <p>Onaydan sonra giriş yapın; projelere, görevlere ve ekip arkadaşlarınıza erişin.</p>
+            <p>Kullanıcı adınız ve şifrenizle giriş yapın; projelere ve ekip arkadaşlarınıza erişin.</p>
         </article>
     </div>
 </section>
@@ -167,7 +167,7 @@ include __DIR__ . '/_head.php';
         </div>
         <div>
             <h2>Belgeleriniz güvende.</h2>
-            <p>e-Devlet belgeleri yalnızca üyelik doğrulaması için kullanılır; herkese açık bir adresi yoktur. Yalnızca yetkili dernek yöneticileri görüntüleyebilir. Verileriniz KVKK kapsamında korunur.</p>
+            <p>e-Devlet belgeleri yalnızca üyelik doğrulaması için kullanılır; herkese açık bir adresi yoktur. Başvurunuz otomatik onaylansa da belgeniz dernek yönetimi tarafından ayrıca incelenebilir. Verileriniz KVKK kapsamında korunur.</p>
         </div>
         <a class="ghd-button ghd-button-ghost ghd-button-large" href="<?= $this->url->href('MembershipController', 'kvkk', array('plugin' => 'GhdMembership')) ?>">KVKK metnini oku</a>
     </div>
@@ -178,7 +178,7 @@ include __DIR__ . '/_head.php';
         <div>
             <p class="ghd-eyebrow"><span></span> Global Hukukçular Derneği</p>
             <h2>Dernek çalışmalarında <em>yerinizi alın.</em></h2>
-            <p>Üyelik başvurunuzu tamamlayın; onaydan sonra GH Çalıştay panosunda ekip arkadaşlarınızla birlikte üretmeye başlayın.</p>
+            <p>Üyelik başvurunuzu tamamlayın; üyeliğiniz anında onaylansın ve GH Çalıştay panosunda ekip arkadaşlarınızla birlikte üretmeye başlayın.</p>
         </div>
         <div class="ghd-cta-actions">
             <?php if ($is_logged): ?>

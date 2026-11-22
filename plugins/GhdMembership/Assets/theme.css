@@ -3051,3 +3051,26 @@ body.ghd-app .alert-fade-out {
         text-align: left;
     }
 }
+
+/* Retrospective review of auto-approved memberships. */
+.ghd-admin-revoke {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--ghd-line);
+}
+.ghd-admin-revoke h4 {
+    margin: 0 0 5px;
+    color: var(--ghd-danger);
+    font-family: var(--ghd-sans);
+    font-size: 12px;
+    font-weight: 750;
+}
+.ghd-admin-revoke p {
+    margin: 0 0 12px;
+    color: var(--ghd-muted);
+    font-size: 10.5px;
+    line-height: 1.55;
+}
+.ghd-admin-revoke textarea {
+    min-height: 80px;
+}

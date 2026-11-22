@@ -15,3 +15,5 @@ LABEL org.opencontainers.image.title="GH Çalıştay" \
 
 COPY app/Core/Http/Route.php /var/www/app/app/Core/Http/Route.php
 COPY plugins/GhdMembership /var/www/app/plugins/GhdMembership
+COPY deploy/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh

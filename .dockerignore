@@ -9,6 +9,7 @@
 *.lock
 *.md
 *.sh
+!deploy/entrypoint.sh
 .*.yml
 *.yml
 data/*
